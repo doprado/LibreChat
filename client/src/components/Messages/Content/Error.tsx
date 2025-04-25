@@ -76,8 +76,8 @@ const errorMessages = {
   message_limit: (json: TMessageLimit) => {
     const { max, windowInMinutes } = json;
     const plural = max > 1 ? 's' : '';
-    return `You hit the message limit. You have a cap of ${max} message${plural} per ${
-      windowInMinutes > 1 ? `${windowInMinutes} minutes` : 'minute'
+    return `Você atingiu o limite de mensagens. Você tem um limite de ${max} mensagen${plural} por ${
+      windowInMinutes > 1 ? `${windowInMinutes} minutos` : 'minuto'
     }.`;
   },
   token_balance: (json: TTokenBalance) => {
