@@ -259,6 +259,7 @@ endpoints:
       headers:
           x-portkey-api-key: '${PORTKEY_API_KEY}'
           x-portkey-virtual-key: '${PORTKEY_OPENAI_VIRTUAL_KEY}'
+          x-portkey-metadata: '{"_user": "${USER_EMAIL}"}' # this header is to pull in 
       models:
           default: ['gpt-4o-mini', 'gpt-4o', 'chatgpt-4o-latest']
           fetch: true
