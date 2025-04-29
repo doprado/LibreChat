@@ -3,12 +3,12 @@ import { useRecoilValue } from 'recoil';
 import { useForm } from 'react-hook-form';
 import { useParams } from 'react-router-dom';
 import { Constants } from 'librechat-data-provider';
-import { useGetMessagesByConvoId } from 'librechat-data-provider/react-query';
 import type { TMessage } from 'librechat-data-provider';
 import type { ChatFormValues } from '~/common';
 import { ChatContext, AddedChatContext, useFileMapContext, ChatFormProvider } from '~/Providers';
 import { useChatHelpers, useAddedResponse, useSSE } from '~/hooks';
 import ConversationStarters from './Input/ConversationStarters';
+import { useGetMessagesByConvoId } from '~/data-provider';
 import MessagesView from './Messages/MessagesView';
 import { Spinner } from '~/components/svg';
 import Presentation from './Presentation';
@@ -18,6 +18,16 @@ import Landing from './Landing';
 import Header from './Header';
 import Footer from './Footer';
 import store from '~/store';
+
+function LoadingSpinner() {
+  return (
+    <div className="relative flex-1 overflow-hidden overflow-y-auto">
+      <div className="relative flex h-full items-center justify-center">
+        <Spinner className="text-text-primary" />
+      </div>
+    </div>
+  );
+}
 
 function ChatView({ index = 0 }: { index?: number }) {
   const { conversationId } = useParams();
@@ -52,15 +62,12 @@ function ChatView({ index = 0 }: { index?: number }) {
   const isLandingPage =
     (!messagesTree || messagesTree.length === 0) &&
     (conversationId === Constants.NEW_CONVO || !conversationId);
+  const isNavigating = (!messagesTree || messagesTree.length === 0) && conversationId != null;
 
   if (isLoading && conversationId !== Constants.NEW_CONVO) {
-    content = (
-      <div className="relative flex-1 overflow-hidden overflow-y-auto">
-        <div className="relative flex h-full items-center justify-center">
-          <Spinner className="text-text-primary" />
-        </div>
-      </div>
-    );
+    content = <LoadingSpinner />;
+  } else if ((isLoading || isNavigating) && !isLandingPage) {
+    content = <LoadingSpinner />;
   } else if (!isLandingPage) {
     content = <MessagesView messagesTree={messagesTree} />;
   } else {
