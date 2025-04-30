@@ -55,6 +55,7 @@ export default function useTextarea({
     assistant_id: conversation?.assistant_id,
   });
   const entityName = entity?.name ?? '';
+  
 
   const isNotAppendable =
     (((latestMessage?.unfinished ?? false) && !isSubmitting) || (latestMessage?.error ?? false)) &&
@@ -83,6 +84,8 @@ export default function useTextarea({
       const currentEndpoint = conversation?.endpoint ?? '';
       const currentAgentId = conversation?.agent_id ?? '';
       const currentAssistantId = conversation?.assistant_id ?? '';
+      const model = conversation?.model ?? 'XABLAU';
+
       if (isAgent && (!currentAgentId || !agentsMap?.[currentAgentId])) {
         return localize('com_endpoint_agent_placeholder');
       } else if (
@@ -101,8 +104,10 @@ export default function useTextarea({
           ? getEntityName({ name: entityName, isAgent, localize })
           : getSender(conversation as TEndpointOption);
 
+      const _sender = sender == 'AI' ? model : sender;
+
       return `${localize('com_endpoint_message_new', {
-        0: sender ? sender : localize('com_endpoint_ai'),
+        0: _sender ? _sender : localize('com_endpoint_ai'),
       })}`;
     };
 

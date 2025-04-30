@@ -106,7 +106,7 @@ export default function useMessageActions(props: TMessageActions) {
     } else if (assistant) {
       return assistant.name ?? 'Assistant';
     } else {
-      return message?.sender;
+      return message?.sender == 'AI' ? message?.model: message?.sender;
     }
   }, [message, agent, assistant, UsernameDisplay, user, localize]);
 
