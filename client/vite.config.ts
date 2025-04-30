@@ -44,8 +44,9 @@ export default defineConfig({
       },
       includeAssets: ['**/*'],
       manifest: {
-        name: 'LibreChat',
-        short_name: 'LibreChat',
+        name: 'Sia Chat',
+        short_name: 'Sia Chat',
+        description: 'Sia Chat - An chat application with support for multiple AI models',
         start_url: '/',
         display: 'standalone',
         background_color: '#000000',
