@@ -38,7 +38,7 @@ export default function StartupLayout({ isAuthenticated }: { isAuthenticated?: b
   }, [isAuthenticated, navigate, data]);
 
   useEffect(() => {
-    document.title = startupConfig?.appTitle || 'Sia Chat';
+    document.title = startupConfig?.appTitle || 'Sia';
   }, [startupConfig?.appTitle]);
 
   useEffect(() => {

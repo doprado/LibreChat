@@ -44,8 +44,8 @@ export default defineConfig({
       },
       includeAssets: ['**/*'],
       manifest: {
-        name: 'Sia Chat',
-        short_name: 'Sia Chat',
+        name: 'Sia',
+        short_name: 'Sia',
         description: 'Sia Chat - An chat application with support for multiple AI models',
         start_url: '/',
         display: 'standalone',
