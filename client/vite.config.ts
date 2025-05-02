@@ -46,7 +46,7 @@ export default defineConfig({
       manifest: {
         name: 'Sia',
         short_name: 'Sia',
-        description: 'Sia Chat - An chat application with support for multiple AI models',
+        description: 'Sia - An chat application with support for multiple AI models',
         start_url: '/',
         display: 'standalone',
         background_color: '#000000',
