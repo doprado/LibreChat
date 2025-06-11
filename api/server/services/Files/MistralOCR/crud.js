@@ -47,7 +47,6 @@ async function uploadDocumentToMistral({
     })
     .then((res) => res.data)
     .catch((error) => {
-      logger.error('Error uploading document to Mistral:', error.message);
       throw error;
     });
 }
@@ -93,6 +92,7 @@ async function performOCR({
       `${baseURL}/ocr`,
       {
         model,
+        image_limit: 0,
         include_image_base64: false,
         document: {
           type: documentType,
@@ -217,8 +217,16 @@ const uploadMistralOCR = async ({ req, file, file_id, entity_id }) => {
       images,
     };
   } catch (error) {
-    const message = 'Error uploading document to Mistral OCR API';
-    throw new Error(logAxiosError({ error, message }));
+    let message = 'Error uploading document to Mistral OCR API';
+    const detail = error?.response?.data?.detail;
+    if (detail && detail !== '') {
+      message = detail;
+    }
+
+    const responseMessage = error?.response?.data?.message;
+    throw new Error(
+      `${logAxiosError({ error, message })}${responseMessage && responseMessage !== '' ? ` - ${responseMessage}` : ''}`,
+    );
   }
 };
 
