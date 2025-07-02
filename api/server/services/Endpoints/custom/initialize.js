@@ -6,7 +6,7 @@ const {
   extractEnvVariable,
 } = require('librechat-data-provider');
 const { Providers } = require('@librechat/agents');
-const { getOpenAIConfig, createHandleLLMNewToken } = require('@librechat/api');
+const { getOpenAIConfig, createHandleLLMNewToken, resolveHeaders } = require('@librechat/api');
 const { getUserKeyValues, checkUserKeyExpiry } = require('~/server/services/UserService');
 const { getCustomEndpointConfig } = require('~/server/services/Config');
 const { fetchModels } = require('~/server/services/ModelService');
@@ -29,33 +29,7 @@ const initializeClient = async ({ req, res, endpointOption, optionsOnly, overrid
   const CUSTOM_API_KEY = extractEnvVariable(endpointConfig.apiKey);
   const CUSTOM_BASE_URL = extractEnvVariable(endpointConfig.baseURL);
 
-  const replaceUserEmail = async (metadata, userId) => {
-    try {
-      const user = await User.findById(userId).exec();
-      return user?.email && metadata.includes('${USER_EMAIL}')
-        ? metadata.replace('${USER_EMAIL}', user.email)
-        : metadata;
-    } catch {
-      throw new Error('User not found');
-    }
-  };
-
-  let resolvedHeaders = {};
-  if (endpointConfig.headers && typeof endpointConfig.headers === 'object') {
-    // Object.keys(endpointConfig.headers).forEach((key) => {
-    //   resolvedHeaders[key] = extractEnvVariable(endpointConfig.headers[key]);
-    // });
-    await Promise.all(Object.entries(endpointConfig.headers).map(async ([key, value]) => {
-      try {
-        resolvedHeaders[key] = value.includes('${USER_EMAIL}')
-          ? await replaceUserEmail(value, req.user.id)
-          : extractEnvVariable(value);
-      } catch {
-        resolvedHeaders[key] = 'null';
-      }
-    }),
-    );
-  }
+  let resolvedHeaders = resolveHeaders(endpointConfig.headers, req.user);
 
   if (CUSTOM_API_KEY.match(envVarRegex)) {
     throw new Error(`Missing API Key for ${endpoint}.`);
@@ -156,7 +130,7 @@ const initializeClient = async ({ req, res, endpointOption, optionsOnly, overrid
   };
 
   if (optionsOnly) {
-    const modelOptions = endpointOption.model_parameters;
+    const modelOptions = endpointOption?.model_parameters ?? {};
     if (endpoint !== Providers.OLLAMA) {
       clientOptions = Object.assign(
         {
