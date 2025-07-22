@@ -132,6 +132,8 @@ export const resendVerificationEmail = () => '/api/user/verify/resend';
 
 export const plugins = () => '/api/plugins';
 
+export const mcpReinitialize = (serverName: string) => `/api/mcp/${serverName}/reinitialize`;
+
 export const config = () => '/api/config';
 
 export const prompts = () => '/api/prompts';
@@ -188,6 +190,12 @@ export const agents = ({ path = '', options }: { path?: string; options?: object
 export const revertAgentVersion = (agent_id: string) => `${agents({ path: `${agent_id}/revert` })}`;
 
 export const files = () => '/api/files';
+export const fileUpload = () => '/api/files';
+export const fileDelete = () => '/api/files';
+export const fileDownload = (userId: string, fileId: string) =>
+  `/api/files/download/${userId}/${fileId}`;
+export const fileConfig = () => '/api/files/config';
+export const agentFiles = (agentId: string) => `/api/files/agent/${agentId}`;
 
 export const images = () => `${files()}/images`;
 
