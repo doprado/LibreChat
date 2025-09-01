@@ -466,6 +466,7 @@
   "com_nav_send_message": "Send message",
   "com_nav_setting_account": "Account",
   "com_nav_setting_balance": "Balance",
+  "com_nav_setting_cookies_consent": "Cookies Consent",
   "com_nav_setting_beta": "Beta features",
   "com_nav_setting_chat": "Chat",
   "com_nav_setting_data": "Data controls",
@@ -1089,5 +1090,7 @@
   "com_ui_x_selected": "{{0}} selected",
   "com_ui_yes": "Yes",
   "com_ui_zoom": "Zoom",
-  "com_user_message": "You"
+  "com_user_message": "You",
+  "com_ui_cookie_consent_preference_label": "Cookie Preferences",
+  "com_ui_cookie_consent_preference_button": "Change Preferences"
 }

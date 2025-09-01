@@ -19,6 +19,8 @@ import { GearIcon, DataIcon, SpeechIcon, UserIcon, PersonalizationIcon } from '~
 import usePersonalizationAccess from '~/hooks/usePersonalizationAccess';
 import { useMediaQuery, useLocalize, TranslationKeys } from '~/hooks';
 import { cn } from '~/utils';
+import { CookieConsent } from '~/@sia/components/settingsTabs';
+import { CookieIcon } from '~/@sia/components/svg';
 
 export default function Settings({ open, onOpenChange }: TDialogProps) {
   const isSmallScreen = useMediaQuery('(max-width: 767px)');
@@ -113,6 +115,11 @@ export default function Settings({ open, onOpenChange }: TDialogProps) {
       value: SettingsTabValues.ACCOUNT,
       icon: <UserIcon />,
       label: 'com_nav_setting_account',
+    },
+    {
+      value: SettingsTabValues.COOKIES,
+      icon: <CookieIcon />,
+      label: 'com_nav_setting_cookies_consent' as TranslationKeys,
     },
   ];
 
@@ -243,6 +250,9 @@ export default function Settings({ open, onOpenChange }: TDialogProps) {
                     )}
                     <Tabs.Content value={SettingsTabValues.ACCOUNT}>
                       <Account />
+                    </Tabs.Content>
+                    <Tabs.Content value={SettingsTabValues.COOKIES}>
+                      <CookieConsent />
                     </Tabs.Content>
                   </div>
                 </Tabs.Root>

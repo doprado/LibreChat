@@ -6,6 +6,13 @@ export const CookieConsent: React.FC = () => {
   const localize = useLocalize();
 
   function handleCookieConsent() {
+    /**
+     * Exibe o modal de preferências de cookies.
+     *
+     * Observação:
+     * O objeto global "CookieConsent" é injetado pela biblioteca de
+     * consentimento de cookies durante sua inicialização.
+     */
     (window as any)?.CookieConsent?.showPreferences?.();
   }
 
